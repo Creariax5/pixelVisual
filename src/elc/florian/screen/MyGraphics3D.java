@@ -13,12 +13,12 @@ public class MyGraphics3D {
     public static void drawCube(Graphics g, Cube cube, Camera camera) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        int midSize = Main.canvaSize/2;
+        int midSize = 80/2;
 
-        for (int i = 0; i < 800; i++) {
-            for (int j = 0; j < 800; j++) {
-                float angleW = (float) (i - midSize) /1000;
-                float angleH = (float) (j - midSize) /1000;
+        for (int i = 0; i < 800/10; i++) {
+            for (int j = 0; j < 800/10; j++) {
+                float angleW = (float) (i - midSize) /200;
+                float angleH = (float) (j - midSize) /200;
 
                 Camera newCam = new Camera(camera);
 
@@ -37,88 +37,92 @@ public class MyGraphics3D {
                 int color = 0;
 
 
+                float touchY;
+                float touchX;
+                float touchZ;
 
-                float touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                float touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                float touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+                if (tList[0]<tList[1]) {
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
 
-                if (t>0) {
-                    if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
-                        color = 1;
+                    if (t>0) {
+                        if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
+                            color = 1;
+                        }
                     }
-                }
+                } else {
+                    t = tList[1];
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
 
-                t = tList[1];
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-
-                if (t>0) {
-                    if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
-                        color = 1;
-                    }
-                }
-
-
-
-                t = tList[2];
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-
-                if (t>0) {
-                    if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
-                        if (color == 0) {
-                            color = 2;
-                        } else {
-
+                    if (t>0) {
+                        if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
+                            color = 1;
                         }
                     }
                 }
 
-                t = tList[3];
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+                if (tList[2]<tList[3]) {
+                    t = tList[2];
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
 
-                if (t>0) {
-                    if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
-                        if (color == 0) {
-                            color = 2;
-                        } else {
+                    if (t>0) {
+                        if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
+                            if (color == 0) {
+                                color = 2;
+                            } else {
 
+                            }
+                        }
+                    }
+                } else {
+                    t = tList[3];
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+
+                    if (t>0) {
+                        if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
+                            if (color == 0) {
+                                color = 2;
+                            } else {
+
+                            }
                         }
                     }
                 }
+                if (tList[4]<tList[5]) {
+                    t = tList[4];
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
 
+                    if (t>0) {
+                        if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
+                            if (color == 0) {
+                                color = 3;
+                            } else {
 
-
-                t = tList[4];
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-
-                if (t>0) {
-                    if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
-                        if (color == 0) {
-                            color = 3;
-                        } else {
-
+                            }
                         }
                     }
-                }
+                } else {
+                    t = tList[5];
+                    touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                    touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                    touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
 
-                t = tList[5];
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+                    if (t>0) {
+                        if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
+                            if (color == 0) {
+                                color = 3;
+                            } else {
 
-                if (t>0) {
-                    if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
-                        if (color == 0) {
-                            color = 3;
-                        } else {
-
+                            }
                         }
                     }
                 }
@@ -145,7 +149,8 @@ public class MyGraphics3D {
                         break;
                 }
 
-                graphics2D.fillRect(i, j, 1, 1);
+                graphics2D.fillRect(i*10, j*10, 10, 10);
+
             }
         }
     }
