@@ -22,8 +22,8 @@ public class MyGraphics3D {
 
                 Camera newCam = new Camera(camera);
 
-                newCam.setOrientationW(newCam.getOrientationW() + angleW);
                 newCam.setOrientationH(newCam.getOrientationH() + angleH);
+                newCam.setOrientationW(newCam.getOrientationW() + angleW);
 
                 Vector camVector = newCam.getVector();
                 Vector cubeCoo = cube.getVector();

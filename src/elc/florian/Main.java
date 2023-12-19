@@ -21,6 +21,7 @@ public class Main {
     public static long start_time = System.currentTimeMillis();
     public static Camera camera = new Camera(new Vector(10, 3, 0), 1);
 
+    public static JFrame frame = Frame.create();
     public Main()
     {
         float ori = (float) (3*Math.PI/2);
@@ -41,6 +42,6 @@ public class Main {
 
     public static void main(String[] args)
     {
-        Frame.create();
+
     }
 }

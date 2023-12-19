@@ -28,20 +28,19 @@ public class Camera {
     public void vecToOri() {
         this.orientationW = (float) Math.atan(vector.getX()/vector.getZ());
         this.orientationH = (float) Math.acos(vector.getY());
-        System.out.println(orientationW);
     }
 
     public void oriToVec() {
-        //System.out.println(orientationH);
-        //System.out.println(orientationW);
-
         this.vector.setX((float) (Math.sin(orientationH) * Math.sin(orientationW)));
         this.vector.setZ((float) (Math.sin(orientationH) * Math.cos(orientationW)));
         this.vector.setY((float) Math.cos(orientationH));
-        /*System.out.println(vector.getX());
-        System.out.println(vector.getY());
-        System.out.println(vector.getZ());
-        System.out.println(Math.sqrt(Math.pow(vector.getX(), 2)+Math.pow(vector.getY(), 2)+Math.pow(vector.getZ(), 2)));*/
+    }
+
+    public void W(float W) {
+        this.vector.setX((float) Math.sin(W));
+        this.vector.setZ((float) Math.cos(orientationW));
+        this.vector.setY((float) Math.cos(orientationH));
+        vecToOri();
     }
 
     public Vector getVector() {
