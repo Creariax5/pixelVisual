@@ -25,24 +25,6 @@ public class Camera {
         this.orientationH = camera.getOrientationH();
     }
 
-    public void vecToOri() {
-        this.orientationW = (float) Math.atan(vector.getX()/vector.getZ());
-        this.orientationH = (float) Math.acos(vector.getY());
-    }
-
-    public void oriToVec() {
-        this.vector.setX((float) (Math.sin(orientationH) * Math.sin(orientationW)));
-        this.vector.setZ((float) (Math.sin(orientationH) * Math.cos(orientationW)));
-        this.vector.setY((float) Math.cos(orientationH));
-    }
-
-    public void W(float W) {
-        this.vector.setX((float) Math.sin(W));
-        this.vector.setZ((float) Math.cos(orientationW));
-        this.vector.setY((float) Math.cos(orientationH));
-        vecToOri();
-    }
-
     public Vector getVector() {
         return vector;
     }
@@ -65,7 +47,7 @@ public class Camera {
 
     public void setOrientationW(float orientationW) {
         this.orientationW = orientationW;
-        oriToVec();
+        Vector.oriToVec(vector, orientationH, orientationW);
     }
 
     public float getOrientationH() {
@@ -74,7 +56,13 @@ public class Camera {
 
     public void setOrientationH(float orientationH) {
         this.orientationH = orientationH;
-        oriToVec();
+        Vector.oriToVec(vector, orientationH, orientationW);
+    }
+
+    public void setOrientationHW(float orientationH, float orientationW) {
+        this.orientationH = orientationH;
+        this.orientationW = orientationW;
+        Vector.oriToVec(vector, orientationH, orientationW);
     }
 
     public int getId() {

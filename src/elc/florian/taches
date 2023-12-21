@@ -1,0 +1,4 @@
+- corriger bug d'applatissement (les vecteurs doivent toujours former un carré)
+- add flou de mouvement
+- add cube
+- corriger bug points noirs sur cube (c'est par ce que il n'y a pas assez de vecteurs)

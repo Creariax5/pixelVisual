@@ -3,7 +3,7 @@ package elc.florian.tool.listener;
 import elc.florian.Main;
 
 import java.awt.*;
-import java.awt.Robot;
+        import java.awt.Robot;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
@@ -18,7 +18,7 @@ public class MyMouseMotionListener implements MouseMotionListener{
         int x = e.getX();
         int y = e.getY();
 
-        Robot robot = null;
+        Robot robot;
         try {
             robot = new Robot();
         } catch (AWTException ex) {
@@ -26,15 +26,12 @@ public class MyMouseMotionListener implements MouseMotionListener{
         }
         robot.mouseMove(Main.frame.getX() + 400, Main.frame.getY() + 400);
 
-
-        Main.camera.setOrientationW((float) (Main.camera.getOrientationW() + (0.01*(x-400))));
-
-        Main.camera.setOrientationH((float) (Main.camera.getOrientationH() + (0.01*(y-400))));
+        Main.camera.setOrientationHW((float) (Main.camera.getOrientationH() + (0.005*(y-400))), (float) (Main.camera.getOrientationW() + (0.005*(x-400))));
         if (Main.camera.getOrientationH()<0) {
             Main.camera.setOrientationH(0);
         }
-
-        System.out.println(Main.camera.getOrientationH());
-        System.out.println(Main.camera.getOrientationW());
+        if (Main.camera.getOrientationH()>Math.PI) {
+            Main.camera.setOrientationH((float) Math.PI);
+        }
     }
 }

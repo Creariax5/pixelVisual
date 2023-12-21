@@ -24,11 +24,7 @@ public class Main {
     public static JFrame frame = Frame.create();
     public Main()
     {
-        float ori = (float) (3*Math.PI/2);
-        camera.setOrientationW(ori);
-
-        ori = (float) (1.1*Math.PI/2);
-        camera.setOrientationH(ori);
+        camera.setOrientationHW((float) (1.1*Math.PI/2), (float) (3*Math.PI/2));
 
         surface = new BufferedImage(canvaSize,canvaSize,BufferedImage.TYPE_INT_RGB);
         view = new JLabel(new ImageIcon(surface));
@@ -42,6 +38,6 @@ public class Main {
 
     public static void main(String[] args)
     {
-
+        System.out.println("Started");
     }
 }
