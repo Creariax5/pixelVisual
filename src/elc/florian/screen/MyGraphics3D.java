@@ -13,24 +13,22 @@ public class MyGraphics3D {
     public static void drawCube(Graphics g, Cube cube, Camera camera) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        int midSize = 160/2;
+        int midSize = (int) (Main.canvaSize*0.2/2);
 
-        for (int i = 0; i < 800/5; i++) {
-            for (int j = 0; j < 800/5; j++) {
+        for (int i = 0; i < Main.canvaSize*0.2; i++) {
+            for (int j = 0; j < Main.canvaSize*0.2; j++) {
                 float angleW = (float) (i - midSize) /400;
                 float angleH = (float) (j - midSize) /400;
 
                 // creer une camera temporaire et changer sa H
                 Camera newCam = new Camera(camera);
                 newCam.setOrientationH(newCam.getOrientationH() + angleH);
-                newCam.setOrientationW(newCam.getOrientationW() + angleW);
 
-
+                // puis sa W
                 Vector axeDeRotation = new Vector(newCam.getVector());
                 Vector.oriToVec(axeDeRotation, (float) (newCam.getOrientationH() - Math.PI / 2), newCam.getOrientationW());
-                Vector V = newCam.getVector();
 
-                float angle0 =  angleW;
+                newCam.setVector(Vector.rotation(newCam.getVector(), axeDeRotation, angleW));
 
 
                 //camVector est egal au vecteur récemment calculé
@@ -52,37 +50,36 @@ public class MyGraphics3D {
                 float touchX;
                 float touchZ;
 
-                if (!(tList[0] < tList[1])) {
-                    t = tList[1];
-
-                }
+                t = Math.min(tList[0], tList[1]);
                 touchY = (camVector.getY()) * t + camera.getCoo().getY();
                 touchX = (camVector.getX()) * t + camera.getCoo().getX();
                 touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
                 if (t>0) {
                     if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
                         color = 1;
+                    } else {
+                        t = Math.min(tList[2], tList[3]);
+                        touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                        touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                        touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+                        if (t>0) {
+                            if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
+                                color = 2;
+                            }
+                        } else {
+                            t = Math.min(tList[4], tList[5]);
+                            touchY = (camVector.getY()) * t + camera.getCoo().getY();
+                            touchX = (camVector.getX()) * t + camera.getCoo().getX();
+                            touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
+                            if (t>0) {
+                                if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
+                                    color = 3;
+                                }
+                            }
+                        }
                     }
                 }
 
-                t = Math.min(tList[2], tList[3]);
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-                if (t>0) {
-                    if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
-                        color = 2;
-                    }
-                }
-                t = Math.min(tList[4], tList[5]);
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-                if (t>0) {
-                    if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
-                            color = 3;
-                    }
-                }
 
                 //on defini la bonne couleur du pixel a la coordonnée i j
                 switch(color){
@@ -107,7 +104,7 @@ public class MyGraphics3D {
                         break;
                 }
 
-                graphics2D.fillRect(i*5, j*5, 2, 2);
+                graphics2D.fillRect((int) (i/0.2), (int) (j/0.2), 3, 3);
 
             }
         }
