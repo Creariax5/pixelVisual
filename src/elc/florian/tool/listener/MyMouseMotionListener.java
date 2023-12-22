@@ -26,12 +26,12 @@ public class MyMouseMotionListener implements MouseMotionListener{
         }
         robot.mouseMove(Main.frame.getX() + Main.canvaSize/2, Main.frame.getY() + Main.canvaSize/2);
 
-        Main.camera.setOrientationHW((float) (Main.camera.getOrientationH() + (0.005*(y-Main.canvaSize/2))), (float) (Main.camera.getOrientationW() + (0.005*(x-Main.canvaSize/2))));
+        Main.camera.setOrientationHW(Main.camera.getOrientationH() + (0.005*(y- (double) Main.canvaSize /2)), Main.camera.getOrientationW() + (0.005*(x- (double) Main.canvaSize /2)));
         if (Main.camera.getOrientationH()<0) {
             Main.camera.setOrientationH(0);
         }
         if (Main.camera.getOrientationH()>Math.PI) {
-            Main.camera.setOrientationH((float) Math.PI);
+            Main.camera.setOrientationH(Math.PI);
         }
     }
 }

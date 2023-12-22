@@ -5,8 +5,8 @@ import elc.florian.tool.Vector;
 public class Camera {
     Vector vector;
     Vector coo;
-    float orientationW;
-    float orientationH;
+    double orientationW;
+    double orientationH;
     int id;
 
     public Camera(Vector coo, int id) {
@@ -14,7 +14,7 @@ public class Camera {
         this.coo = coo;
         this.id = id;
         this.orientationW = 0;
-        this.orientationH = (float) Math.acos(vector.getY());
+        this.orientationH = Math.acos(vector.getY());
     }
 
     public Camera(Camera camera) {
@@ -41,25 +41,25 @@ public class Camera {
         this.coo = coo;
     }
 
-    public float getOrientationW() {
+    public double getOrientationW() {
         return orientationW;
     }
 
-    public void setOrientationW(float orientationW) {
+    public void setOrientationW(double orientationW) {
         this.orientationW = orientationW;
         Vector.oriToVec(vector, orientationH, orientationW);
     }
 
-    public float getOrientationH() {
+    public double getOrientationH() {
         return orientationH;
     }
 
-    public void setOrientationH(float orientationH) {
+    public void setOrientationH(double orientationH) {
         this.orientationH = orientationH;
         Vector.oriToVec(vector, orientationH, orientationW);
     }
 
-    public void setOrientationHW(float orientationH, float orientationW) {
+    public void setOrientationHW(double orientationH, double orientationW) {
         this.orientationH = orientationH;
         this.orientationW = orientationW;
         Vector.oriToVec(vector, orientationH, orientationW);

@@ -9,10 +9,11 @@ import javax.swing.*;
 
 public class Frame {
     public static JFrame create() {
+        Main canvas = new Main();
         JFrame frame = new JFrame();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(Main.view);
+        frame.setContentPane(canvas.view);
         frame.addMouseListener(new MyMouseListener());
         frame.addMouseMotionListener(new MyMouseMotionListener());
         frame.addKeyListener(new MyKeyListener());

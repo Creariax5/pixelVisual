@@ -1,11 +1,11 @@
 package elc.florian.tool;
 
 public class Vector {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 
-    public Vector(float x, float y, float z) {
+    public Vector(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -21,7 +21,7 @@ public class Vector {
         return new Vector(a.getX() + b.getX(), a.getY() + b.getY(), a.getZ() + b.getZ());
     }
 
-    public static float Pscalaire(Vector a, Vector b) {
+    public static double Pscalaire(Vector a, Vector b) {
         return a.x*b.x + a.y*b.y +a.z*b.z;
     }
 
@@ -33,7 +33,7 @@ public class Vector {
         );
     }
 
-    public static Vector Psimple(Vector a, float b) {
+    public static Vector Psimple(Vector a, double b) {
         return new Vector(
                 a.x*b,
                 a.y*b,
@@ -41,17 +41,17 @@ public class Vector {
         );
     }
 
-    public static Vector rotation(Vector V1, Vector V2, float O) {
+    public static Vector rotation(Vector V1, Vector V2, double O) {
         return Vector.add(
                 Vector.add(
                         Vector.Psimple(
-                                V1, (float) Math.cos(O)
+                                V1, Math.cos(O)
                         ),
                         Vector.Psimple(
                                 Vector.Pvectoriel(
                                         V2,
                                         V1
-                                ), (float) Math.sin(O)
+                                ), Math.sin(O)
                         )
                 ),
                 Vector.Psimple(
@@ -59,45 +59,40 @@ public class Vector {
                                 V2,
                                 Vector.Pscalaire(V2, V1)
                         ),
-                        (float) (1-Math.cos(O))
+                        1-Math.cos(O)
                 )
         );
     }
 
-    /*public void vecToOri() {
-        this.orientationW = (float) Math.atan(vector.getX()/vector.getZ());
-        this.orientationH = (float) Math.acos(vector.getY());
-    }*/
-
-    public static Vector oriToVec(Vector vector, float orientationH, float orientationW) {
-        vector.setX((float) (Math.sin(orientationH) * Math.sin(orientationW)));
-        vector.setZ((float) (Math.sin(orientationH) * Math.cos(orientationW)));
-        vector.setY((float) Math.cos(orientationH));
+    public static Vector oriToVec(Vector vector, double orientationH, double orientationW) {
+        vector.setX(Math.sin(orientationH) * Math.sin(orientationW));
+        vector.setZ(Math.sin(orientationH) * Math.cos(orientationW));
+        vector.setY(Math.cos(orientationH));
         return vector;
     }
 
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 }
