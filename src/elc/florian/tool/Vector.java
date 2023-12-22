@@ -100,12 +100,4 @@ public class Vector {
     public void setZ(float z) {
         this.z = z;
     }
-
-    public float getId() {
-        return z;
-    }
-
-    public void setId(float z) {
-        this.z = z;
-    }
 }

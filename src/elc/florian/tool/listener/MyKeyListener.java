@@ -2,12 +2,10 @@ package elc.florian.tool.listener;
 
 import elc.florian.Main;
 import elc.florian.camera.Camera;
-import elc.florian.tool.Utils;
 import elc.florian.tool.Vector;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.time.LocalDateTime;
 
 public class MyKeyListener implements KeyListener {
 

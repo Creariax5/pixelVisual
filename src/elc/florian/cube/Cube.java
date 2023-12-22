@@ -15,7 +15,7 @@ public class Cube {
         return vector;
     }
 
-    public void setY(Vector vector) {
+    public void setVector(Vector vector) {
         this.vector = vector;
     }
 

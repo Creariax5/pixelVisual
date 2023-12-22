@@ -20,7 +20,7 @@ public class MyGraphics3D {
                 float angleW = (float) (i - midSize) /400;
                 float angleH = (float) (j - midSize) /400;
 
-                // creer une camera temporaire et changer sa H
+                // créer une caméra temporaire et changer sa hauteur de vue
                 Camera newCam = new Camera(camera);
                 newCam.setOrientationH(newCam.getOrientationH() + angleH);
 
@@ -31,21 +31,19 @@ public class MyGraphics3D {
                 newCam.setVector(Vector.rotation(newCam.getVector(), axeDeRotation, angleW));
 
 
-                //camVector est egal au vecteur récemment calculé
+                //camVector est égal au vecteur récemment calculé
                 Vector camVector = newCam.getVector();
                 Vector cubeCoo = cube.getVector();
 
                 graphics2D.setColor(new Color(0, 0, 0));
 
-                //tList est une liste de 6 facteurs qui representent le nombre de fois qu'il faut multiplier celui ci pour toucher chaqu'une des 6 faces du cube
-                float[] tList = gettList(camera, cubeCoo, camVector);
+                //tList est une liste de 6 facteurs qui représentent le nombre de fois qu'il faut multiplier celui-ci pour toucher chacune des 6 faces du cube
+                float[] tList = getTList(camera, cubeCoo, camVector);
 
-                float t;
-
-                //on verifie si un face est touchée par le vecteur si oui la quelle
+                //on vérifie si un face est touchée par le vecteur si oui laquelle
                 int color = isRayTouching(tList, camVector, camera.getCoo(), cubeCoo, 0);
 
-                //on defini la bonne couleur du pixel a la coordonnée i j
+                //on définit la bonne couleur du pixel à la coordonnée i j
                 switch(color){
 
                     case 0:
@@ -100,7 +98,7 @@ public class MyGraphics3D {
         }
     }
 
-    private static float[] gettList(Camera camera, Vector cubeCoo, Vector camVector) {
+    private static float[] getTList(Camera camera, Vector cubeCoo, Vector camVector) {
 
         return new float[] {(cubeCoo.getY()- camera.getCoo().getY())/ camVector.getY(),
                 (cubeCoo.getY()+size- camera.getCoo().getY())/ camVector.getY(),
@@ -111,36 +109,16 @@ public class MyGraphics3D {
     }
 
     private static Boolean touchSurface(float touchY, float touchX, float touchZ, Vector cubeCoo) {
-        float[] lX = new float[] {cubeCoo.getX()*size ,touchX,(cubeCoo.getX() + 1)*size};
-        if (!Utils.sorted(lX)) {
-            return false;
-        }
-        float[] lY = new float[] {cubeCoo.getY()*size ,touchY, (cubeCoo.getY() + 1)*size};
-        if (!Utils.sorted(lY)) {
-            return false;
-        }
-        float[] lZ = new float[] {cubeCoo.getZ()*size ,touchZ,(cubeCoo.getZ() + 1)*size};
-        if (!Utils.sorted(lZ)) {
-            return false;
-        }
-        return true;
-    }
+        float[][] l = new float[3][3];
+        l[0] = new float[] {cubeCoo.getX() * size, touchX, (cubeCoo.getX() + 1) * size};
+        l[1] = new float[] {cubeCoo.getY() * size, touchY, (cubeCoo.getY() + 1) * size};
+        l[2] = new float[] {cubeCoo.getZ() * size, touchZ, (cubeCoo.getZ() + 1) * size};
 
-    public static void shaderTest(Graphics g) {
-        Graphics2D graphics2D = (Graphics2D) g;
-
-
-        long end_time = System.currentTimeMillis();
-        float ms = end_time - Main.start_time;
-
-        int b = (int) Math.abs(Math.cos(ms/3000)*255);
-
-
-        for (int i = 0; i < 800; i++) {
-            for (int j = 0; j < 800; j++) {
-                graphics2D.setColor(new Color(i/4, j/4, b));
-                graphics2D.fillRect(i, j, 1, 1);
+        for (float[] item : l) {
+            if (!Utils.sorted(item)) {
+                return false;
             }
         }
+        return true;
     }
 }
