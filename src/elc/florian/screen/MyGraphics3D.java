@@ -40,46 +40,10 @@ public class MyGraphics3D {
                 //tList est une liste de 6 facteurs qui representent le nombre de fois qu'il faut multiplier celui ci pour toucher chaqu'une des 6 faces du cube
                 float[] tList = gettList(camera, cubeCoo, camVector);
 
-                float t = tList[0];
-
-                int color = 0;
-
+                float t;
 
                 //on verifie si un face est touchée par le vecteur si oui la quelle
-                float touchY;
-                float touchX;
-                float touchZ;
-
-                t = Math.min(tList[0], tList[1]);
-                touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-                if (t>0) {
-                    if (touchSurfaceY(touchY, touchX, touchZ, cubeCoo)) {
-                        color = 1;
-                    } else {
-                        t = Math.min(tList[2], tList[3]);
-                        touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                        touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                        touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-                        if (t>0) {
-                            if (touchSurfaceX(touchY, touchX, touchZ, cubeCoo)) {
-                                color = 2;
-                            }
-                        } else {
-                            t = Math.min(tList[4], tList[5]);
-                            touchY = (camVector.getY()) * t + camera.getCoo().getY();
-                            touchX = (camVector.getX()) * t + camera.getCoo().getX();
-                            touchZ = (camVector.getZ()) * t + camera.getCoo().getZ();
-                            if (t>0) {
-                                if (touchSurfaceZ(touchY, touchX, touchZ, cubeCoo)) {
-                                    color = 3;
-                                }
-                            }
-                        }
-                    }
-                }
-
+                int color = isRayTouching(tList, camVector, camera.getCoo(), cubeCoo, 0);
 
                 //on defini la bonne couleur du pixel a la coordonnée i j
                 switch(color){
@@ -110,6 +74,32 @@ public class MyGraphics3D {
         }
     }
 
+    private static int isRayTouching(float[] tList, Vector camVector, Vector camCoo, Vector cubeCoo, int face) {
+        if (face == 6) {
+            return 0;
+        }
+
+        float t = Math.min(tList[face], tList[face+1]);
+
+        if (t<0) {
+                return isRayTouching(tList, camVector, camCoo, cubeCoo, face+2);
+        }
+
+        float touchY;
+        float touchX;
+        float touchZ;
+
+        touchY = (camVector.getY()) * t + camCoo.getY();
+        touchX = (camVector.getX()) * t + camCoo.getX();
+        touchZ = (camVector.getZ()) * t + camCoo.getZ();
+
+        if (touchSurface(touchY, touchX, touchZ, cubeCoo)) {
+            return face/2 +1;
+        } else {
+            return isRayTouching(tList, camVector, camCoo, cubeCoo, face+2);
+        }
+    }
+
     private static float[] gettList(Camera camera, Vector cubeCoo, Vector camVector) {
 
         return new float[] {(cubeCoo.getY()- camera.getCoo().getY())/ camVector.getY(),
@@ -120,52 +110,17 @@ public class MyGraphics3D {
                 (cubeCoo.getZ()+size- camera.getCoo().getZ())/ camVector.getZ()};
     }
 
-    private static Boolean touchSurfaceY(float touchY, float touchX, float touchZ, Vector cubeCoo) {
-        //System.out.println(cubeCoo.getY()*size + " " + " " + touchY);
-        float[] lY = new float[] {cubeCoo.getY()*size ,touchY};
-        if (!Utils.sorted(lY)) {
-            return false;
-        }
+    private static Boolean touchSurface(float touchY, float touchX, float touchZ, Vector cubeCoo) {
         float[] lX = new float[] {cubeCoo.getX()*size ,touchX,(cubeCoo.getX() + 1)*size};
         if (!Utils.sorted(lX)) {
             return false;
         }
-        float[] lZ = new float[] {cubeCoo.getZ()*size ,touchZ,(cubeCoo.getZ() + 1)*size};
-        if (!Utils.sorted(lZ)) {
-            return false;
-        }
-        return true;
-    }
-
-    private static Boolean touchSurfaceX(float touchY, float touchX, float touchZ, Vector cubeCoo) {
-        //System.out.println(cubeCoo.getY()*size + " " + " " + touchY);
-        float[] lX = new float[] {cubeCoo.getX()*size ,touchX};
-        if (!Utils.sorted(lX)) {
-            return false;
-        }
-        float[] lY = new float[] {cubeCoo.getY()*size ,touchY,(cubeCoo.getY() + 1)*size};
+        float[] lY = new float[] {cubeCoo.getY()*size ,touchY, (cubeCoo.getY() + 1)*size};
         if (!Utils.sorted(lY)) {
             return false;
         }
         float[] lZ = new float[] {cubeCoo.getZ()*size ,touchZ,(cubeCoo.getZ() + 1)*size};
         if (!Utils.sorted(lZ)) {
-            return false;
-        }
-        return true;
-    }
-
-    private static Boolean touchSurfaceZ(float touchY, float touchX, float touchZ, Vector cubeCoo) {
-        //System.out.println(cubeCoo.getY()*size + " " + " " + touchY);
-        float[] lZ = new float[] {cubeCoo.getZ()*size ,touchZ};
-        if (!Utils.sorted(lZ)) {
-            return false;
-        }
-        float[] lX = new float[] {cubeCoo.getX()*size ,touchX,(cubeCoo.getX() + 1)*size};
-        if (!Utils.sorted(lX)) {
-            return false;
-        }
-        float[] lY = new float[] {cubeCoo.getY()*size ,touchY,(cubeCoo.getY() + 1)*size};
-        if (!Utils.sorted(lY)) {
             return false;
         }
         return true;

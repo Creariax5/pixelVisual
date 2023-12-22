@@ -14,7 +14,7 @@ import javax.swing.Timer;
 public class Main {
     public static JLabel view;
     BufferedImage surface;
-    public static int canvaSize = 800;
+    public static int canvaSize = 1000;
 
     public static Color bgColor = Color.BLACK;
     public static int refresh = 0;

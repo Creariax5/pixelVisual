@@ -24,9 +24,9 @@ public class MyMouseMotionListener implements MouseMotionListener{
         } catch (AWTException ex) {
             throw new RuntimeException(ex);
         }
-        robot.mouseMove(Main.frame.getX() + 400, Main.frame.getY() + 400);
+        robot.mouseMove(Main.frame.getX() + Main.canvaSize/2, Main.frame.getY() + Main.canvaSize/2);
 
-        Main.camera.setOrientationHW((float) (Main.camera.getOrientationH() + (0.005*(y-400))), (float) (Main.camera.getOrientationW() + (0.005*(x-400))));
+        Main.camera.setOrientationHW((float) (Main.camera.getOrientationH() + (0.005*(y-Main.canvaSize/2))), (float) (Main.camera.getOrientationW() + (0.005*(x-Main.canvaSize/2))));
         if (Main.camera.getOrientationH()<0) {
             Main.camera.setOrientationH(0);
         }
