@@ -9,7 +9,7 @@ import elc.florian.tool.Vector;
 import java.awt.*;
 
 public class MyGraphics3D {
-    static double size = 1;
+    static double size = 5;
     public static void drawCube(Graphics g, Cube cube, Camera camera) {
         Graphics2D graphics2D = (Graphics2D) g;
 
