@@ -9,14 +9,16 @@ import elc.florian.tool.Vector;
 import java.awt.*;
 
 public class MyGraphics3D {
-    static double size = 5;
+    static double size = 1;
+    static double pixSize = 0.25;
+
     public static void drawCube(Graphics g, Cube cube, Camera camera) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        int midSize = (int) (Main.canvaSize*0.2/2);
+        int midSize = (int) (Main.canvaSize*pixSize/2);
 
-        for (int i = 0; i < Main.canvaSize*0.2; i++) {
-            for (int j = 0; j < Main.canvaSize*0.2; j++) {
+        for (int i = 0; i < Main.canvaSize*pixSize; i++) {
+            for (int j = 0; j < Main.canvaSize*pixSize; j++) {
                 double angleW = (double) (i - midSize) /400;
                 double angleH = (double) (j - midSize) /400;
 
@@ -58,17 +60,17 @@ public class MyGraphics3D {
 
             case 1:
                 graphics2D.setColor(new Color(0, 0, 200));
-                graphics2D.fillRect((int) (i/0.2), (int) (j/0.2), 3, 3);
+                graphics2D.fillRect((int) (i/pixSize), (int) (j/pixSize), 2, 2);
                 break;
 
             case 2:
                 graphics2D.setColor(new Color(0, 200, 0));
-                graphics2D.fillRect((int) (i/0.2), (int) (j/0.2), 3, 3);
+                graphics2D.fillRect((int) (i/pixSize), (int) (j/pixSize), 2, 2);
                 break;
 
             case 3:
                 graphics2D.setColor(new Color(200, 0, 0));
-                graphics2D.fillRect((int) (i/0.2), (int) (j/0.2), 3, 3);
+                graphics2D.fillRect((int) (i/pixSize), (int) (j/pixSize), 2, 2);
                 break;
         }
     }
