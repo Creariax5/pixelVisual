@@ -1,6 +1,7 @@
 package elc.florian;
 
 import elc.florian.camera.Camera;
+import elc.florian.cube.Cube;
 import elc.florian.tool.Frame;
 import elc.florian.screen.Refresh;
 import elc.florian.tool.Vector;
@@ -20,6 +21,7 @@ public class Main {
     public static int refresh = 0;
     public static long start_time = System.currentTimeMillis();
     public static Camera camera = new Camera(new Vector(10, 3, 0), 1);
+    public static Cube[] cubes = Refresh.createCubes();
 
     public static JFrame frame = Frame.create();
     public Main()

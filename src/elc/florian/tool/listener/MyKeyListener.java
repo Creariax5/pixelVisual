@@ -43,6 +43,7 @@ public class MyKeyListener implements KeyListener {
             Main.camera.setOrientationW(Main.camera.getOrientationW()-0.1);
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("Up")) {
             Main.camera.setOrientationH(Main.camera.getOrientationH()-0.1);
+            System.out.println(Main.camera.getOrientationH());
             if (Main.camera.getOrientationH()<0) {
                 Main.camera.setOrientationH(0);
             }

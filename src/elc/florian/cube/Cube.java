@@ -4,11 +4,18 @@ import elc.florian.tool.Vector;
 
 public class Cube {
     Vector vector;
-    int id;
+    double[] TList = new double[6];
 
-    public Cube(Vector vector, int id) {
+    public Cube(Vector vector) {
         this.vector = vector;
-        this.id = id;
+    }
+
+    public double[] getTList() {
+        return TList;
+    }
+
+    public void setTList(double[] TList) {
+        this.TList = TList;
     }
 
     public Vector getVector() {
@@ -18,13 +25,4 @@ public class Cube {
     public void setVector(Vector vector) {
         this.vector = vector;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 }

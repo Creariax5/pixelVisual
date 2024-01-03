@@ -12,15 +12,15 @@ public class MyGraphics3D {
     static double size = 1;
     static double pixSize = 0.25;
 
-    public static void drawCube(Graphics g, Cube cube, Camera camera) {
+    public static void drawCubes(Graphics g, Cube[] cubes, Camera camera) {
         Graphics2D graphics2D = (Graphics2D) g;
 
         int midSize = (int) (Main.canvaSize*pixSize/2);
 
         for (int i = 0; i < Main.canvaSize*pixSize; i++) {
             for (int j = 0; j < Main.canvaSize*pixSize; j++) {
-                double angleW = (double) (i - midSize) /400;
-                double angleH = (double) (j - midSize) /400;
+                double angleW = (double) (i - midSize) / 400;
+                double angleH = (double) (j - midSize) / 400;
 
                 // créer une caméra temporaire et changer sa hauteur de vue
                 Camera newCam = new Camera(camera);
@@ -35,20 +35,20 @@ public class MyGraphics3D {
 
                 //camVector est égal au vecteur récemment calculé
                 Vector camVector = newCam.getVector();
-                Vector cubeCoo = cube.getVector();
 
                 graphics2D.setColor(new Color(0, 0, 0));
 
+                int color = 0;
+
                 //tList est une liste de 6 facteurs qui représentent le nombre de fois qu'il faut multiplier celui-ci pour toucher chacune des 6 faces du cube
-                double[] tList = getTList(camera, cubeCoo, camVector);
+                getTLists(camera, cubes, camVector);
 
                 //on vérifie si un face est touchée par le vecteur si oui laquelle
-                int color = isRayTouching(tList, camVector, camera.getCoo(), cubeCoo, 0);
+                color = isRayTouching2(camVector, camera.getCoo(), cubes, 0);
+
 
                 //on définit la bonne couleur du pixel à la coordonnée i j
-
                 setPix(color, i, j, graphics2D);
-
             }
         }
     }
@@ -101,6 +101,38 @@ public class MyGraphics3D {
         }
     }
 
+    private static int isRayTouching2(Vector camVector, Vector camCoo, Cube[] cubes, int face) {
+        if (face == 6) {
+            return 0;
+        }
+        
+        int i = 0;
+        while (i!=cubes.length) {
+            double t = Math.min(cubes[i].getTList()[face], cubes[i].getTList()[face+1]);
+
+
+            if (t<0) {
+                return isRayTouching2(camVector, camCoo, cubes, face+2);
+            }
+
+            double touchY;
+            double touchX;
+            double touchZ;
+
+            touchY = camVector.getY() * t + camCoo.getY();
+            touchX = camVector.getX() * t + camCoo.getX();
+            touchZ = camVector.getZ() * t + camCoo.getZ();
+
+            if (touchSurface2(touchY, touchX, touchZ, cubes[i])) {
+                return face/2 +1;
+            }
+
+            i++;
+        }
+
+        return isRayTouching2(camVector, camCoo, cubes, face+2);
+    }
+
     private static double[] getTList(Camera camera, Vector cubeCoo, Vector camVector) {
 
         return new double[] {(cubeCoo.getY()- camera.getCoo().getY())/ camVector.getY(),
@@ -111,7 +143,40 @@ public class MyGraphics3D {
                 (cubeCoo.getZ()+size- camera.getCoo().getZ())/ camVector.getZ()};
     }
 
+    private static void getTLists(Camera camera, Cube[] cubes, Vector camVector) {
+        for (Cube cube : cubes) {
+            Vector cubeCoo = cube.getVector();
+            cube.setTList(
+                    new double[] {
+                            (cubeCoo.getY()- camera.getCoo().getY())/ camVector.getY(),
+                            (cubeCoo.getY()+size- camera.getCoo().getY())/ camVector.getY(),
+                            (cubeCoo.getX()- camera.getCoo().getX())/ camVector.getX(),
+                            (cubeCoo.getX()+size- camera.getCoo().getX())/ camVector.getX(),
+                            (cubeCoo.getZ()- camera.getCoo().getZ())/ camVector.getZ(),
+                            (cubeCoo.getZ()+size- camera.getCoo().getZ())/ camVector.getZ()
+                    }
+            );
+        }
+        //Utils.tri_fusion(cubes);
+    }
+
     private static Boolean touchSurface(double touchY, double touchX, double touchZ, Vector cubeCoo) {
+        double[][] l = new double[3][3];
+        l[0] = new double[] {cubeCoo.getX() * size, touchX, (cubeCoo.getX() + 1) * size};
+        l[1] = new double[] {cubeCoo.getY() * size, touchY, (cubeCoo.getY() + 1) * size};
+        l[2] = new double[] {cubeCoo.getZ() * size, touchZ, (cubeCoo.getZ() + 1) * size};
+
+        for (double[] item : l) {
+            if (!Utils.sorted(item)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static Boolean touchSurface2(double touchY, double touchX, double touchZ, Cube cube) {
+        Vector cubeCoo = cube.getVector();
+
         double[][] l = new double[3][3];
         l[0] = new double[] {cubeCoo.getX() * size, touchX, (cubeCoo.getX() + 1) * size};
         l[1] = new double[] {cubeCoo.getY() * size, touchY, (cubeCoo.getY() + 1) * size};

@@ -7,20 +7,33 @@ import elc.florian.tool.Vector;
 import java.awt.*;
 
 public class Refresh {
-    static Cube cube1 = new Cube(new Vector(0, 0, 0), 1);
-    static Cube cube2 = new Cube(new Vector(0, 3, 0), 2);
-    static Cube cube3 = new Cube(new Vector(3, 3, 0), 2);
-    static Cube cube4 = new Cube(new Vector(3, 0, 3), 2);
-
     public static void Screen(Graphics g) {
         g.setColor(Main.bgColor);
         g.fillRect(0,0, Main.canvaSize, Main.canvaSize);
 
-        MyGraphics3D.drawCube(g, cube1, Main.camera);
+        MyGraphics3D.drawCubes(g, Main.cubes, Main.camera);
 
 
         g.dispose();
         Main.view.repaint();
         Main.refresh = Main.refresh + 1;
+    }
+
+    public static Cube[] createCubes() {
+        int size = 1;
+
+        Cube[] cubes = new Cube[size*size*size];
+
+        int l = 0;
+
+        for (int i = 0; i<size; i++) {
+            for (int j = 0; j<size; j++) {
+                for (int k = 0; k<size; k++) {
+                    cubes[l] = new Cube(new Vector(i*2 , j*2, k*2));
+                    l++;
+                }
+            }
+        }
+        return cubes;
     }
 }
